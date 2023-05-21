@@ -4,12 +4,18 @@ import PromptCard from "./PromptCard";
 interface ProfileProps {
   name: string;
   desc: string;
-  data: any[]; // Update with the appropriate type for 'data'
-  handleEdit?: (post: any) => void; // Update with the appropriate type for 'post'
-  handleDelete?: (post: any) => void; // Update with the appropriate type for 'post'
+  data: Array<any>;
+  handleEdit?: (post: any) => void;
+  handleDelete?: (post: any) => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ name, desc, data, handleEdit, handleDelete }) => {
+const Profile: React.FC<ProfileProps> = ({
+  name,
+  desc,
+  data,
+  handleEdit,
+  handleDelete,
+}) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
@@ -18,12 +24,12 @@ const Profile: React.FC<ProfileProps> = ({ name, desc, data, handleEdit, handleD
       <p className="desc text-left">{desc}</p>
 
       <div className="mt-10 prompt_layout">
-        {data.map((post) => (
+        {data.map((post: any) => (
           <PromptCard
             key={post._id}
             post={post}
-            handleEdit={() => handleEdit && handleEdit(post)}
-            handleDelete={() => handleDelete && handleDelete(post)}
+            handleEdit={handleEdit && (() => handleEdit(post))}
+            handleDelete={handleDelete && (() => handleDelete(post))}
           />
         ))}
       </div>

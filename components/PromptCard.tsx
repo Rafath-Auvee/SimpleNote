@@ -3,22 +3,20 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
-interface Post {
-  creator: {
-    _id: string;
-    username: string;
-    email: string;
-    image: string;
-  };
-  prompt: string;
-  tag: string;
-}
-
 interface PromptCardProps {
-  post: Post;
+  post: {
+    creator: {
+      _id: string;
+      image: string;
+      username: string;
+      email: string;
+    };
+    prompt: string;
+    tag: string;
+  };
   handleEdit: () => void;
   handleDelete: () => void;
-  handleTagClick?: (tag: string) => void;
+  handleTagClick: (tag: string) => void;
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({
@@ -36,7 +34,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
   const handleProfileClick = () => {
     console.log(post);
 
-    if (post.creator._id === session?.user?.id) return router.push("/profile");
+    if (post.creator._id === session?.user.id) return router.push("/profile");
 
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
   };
@@ -94,7 +92,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
         #{post.tag}
       </p>
 
-      {session?.user?.id === post.creator._id && pathName === "/profile" && (
+      {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
           <p
             className="font-inter text-sm green_gradient cursor-pointer"

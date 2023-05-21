@@ -1,4 +1,4 @@
-import { Schema, model, Model, Document } from "mongoose";
+import { Schema, model, models, Document, Model } from 'mongoose';
 
 interface IPrompt extends Document {
   creator: Schema.Types.ObjectId;
@@ -9,18 +9,18 @@ interface IPrompt extends Document {
 const PromptSchema = new Schema<IPrompt>({
   creator: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   prompt: {
     type: String,
-    required: [true, "Prompt is required."],
+    required: [true, 'Prompt is required.'],
   },
   tag: {
     type: String,
-    required: [true, "Tag is required."],
-  },
+    required: [true, 'Tag is required.'],
+  }
 });
 
-const Prompt: Model<IPrompt> = models.Prompt || model<IPrompt>("Prompt", PromptSchema);
+const Prompt: Model<IPrompt> = models.Prompt || model<IPrompt>('Prompt', PromptSchema);
 
 export default Prompt;

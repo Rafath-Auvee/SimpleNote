@@ -1,7 +1,9 @@
+"use client"
+
 import { useState, useEffect, ChangeEvent } from "react";
 import PromptCard from "./PromptCard";
 
-interface Prompt {
+interface Post {
   _id: string;
   creator: {
     username: string;
@@ -11,7 +13,7 @@ interface Prompt {
 }
 
 interface PromptCardListProps {
-  data: Prompt[];
+  data: Post[];
   handleTagClick: (tagName: string) => void;
 }
 
@@ -30,14 +32,12 @@ const PromptCardList = ({ data, handleTagClick }: PromptCardListProps) => {
 };
 
 const Feed = () => {
-  const [allPosts, setAllPosts] = useState<Prompt[]>([]);
-
-  // Search states
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
-  const [searchedResults, setSearchedResults] = useState<Prompt[]>([]);
+  const [searchedResults, setSearchedResults] = useState<Post[]>([]);
 
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
@@ -61,7 +61,7 @@ const Feed = () => {
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(searchTimeout!);
+    clearTimeout(searchTimeout as NodeJS.Timeout);
     setSearchText(e.target.value);
 
     // debounce method
